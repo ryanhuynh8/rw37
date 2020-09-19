@@ -20,8 +20,8 @@
  * for rwcore.h (found by looking at a generated rwcore.h to see what the last
  * file was - no dependants)
  */
-#include "../driver/d3d9/drvmodel.h"
-#include "../driver/d3d9/drvfns.h"
+#include <drvmodel.h>
+#include <drvfns.h>
 
 /****************************************************************************
  Defines

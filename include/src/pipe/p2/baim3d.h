@@ -18,7 +18,7 @@
 #include "../../plcore/batypes.h"
 #include "../../plcore/baimmedi.h"
 #include "../../plcore/bamatrix.h"
-#include "../../../driver/d3d9/drvmodel.h"
+#include <drvmodel.h>
 
 #include "p2core.h"
 #include "d3d9/pip2model.h"

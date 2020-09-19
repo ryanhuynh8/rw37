@@ -1226,7 +1226,7 @@ D3D8DeviceSystemOpen(void *out __RWUNUSED__,
 
         /* CPU info */
         len = rwsprintf(buffer, "\nCPU Info: ");
-        _rwCPUGetCPUName(buffer + len);
+        _rwCPUGetCPUName_sized(buffer + len, _countof(buffer) - len);
         RWSRCGLOBAL(debugFunction) (rwDEBUGMESSAGE, buffer);
 
         RWSRCGLOBAL(debugFunction) (rwDEBUGMESSAGE,

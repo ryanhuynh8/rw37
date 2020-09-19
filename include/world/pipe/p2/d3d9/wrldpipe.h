@@ -19,7 +19,7 @@
  Global Defines
  */
 
-#define RWD3D9_USE_VERTEXSHADER_PIPELINEx
+//#define RWD3D9_USE_VERTEXSHADER_PIPELINEx
 
 /****************************************************************************
  Global Types

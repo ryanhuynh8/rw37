@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <PreprocessorDefinitions>WIN32;RWBUILDNUMBER=$(RWBUILDNUMBER);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+        </ClCompile>
+    </ItemDefinitionGroup>
+    <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Debug_DLL'">
+        <ClCompile>
+            <PreprocessorDefinitions>RWDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+        </ClCompile>
+    </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWVERBOSE)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>RWVERBOSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWSTACKDEPTHCHECKING)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>RWSTACKDEPTHCHECKING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWTRACE)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>RWTRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWMEMDEBUG)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RWMEMDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWSUPPRESSINLINE)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RWSUPPRESSINLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RW_USE_SPF)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RW_USE_SPF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWMATRIXMONITOR)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RWMATRIXMONITOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWFREELISTDBG)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RWFREELISTDBG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWNOFREELISTS)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RWNOFREELISTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWSEATIDENTIFIER)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RWSEATIDENTIFIER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWD3D9_USE_VERTEXSHADER_PIPELINE)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>RWD3D9_USE_VERTEXSHADER_PIPELINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(DEBUGGINGPOWERPIPE)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>DEBUGGINGPOWERPIPE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(DISABLERWHEAP)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>DISABLERWHEAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(NOASM)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>NOASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(NOSSEASM)'=='true'">
+    <ClCompile>
+        <PreprocessorDefinitions>NOSSEASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+        <PreprocessorDefinitions>RWDRIVER_$(RWDRIVER);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

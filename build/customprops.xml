@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectSchemaDefinitions  xmlns="http://schemas.microsoft.com/build/2009/properties"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- https://docs.microsoft.com/en-us/dotnet/api/microsoft.build.framework.xamltypes.projectschemadefinitions?view=msbuild-16 !-->
+
+    <!-- Adjust Name and DisplayName to your liking !-->
+    <Rule Name="customtool_config" PageTemplate="generic" DisplayName="RenderWare Config">
+        <Rule.Categories>
+            <!-- Put your own categories here !-->
+            <Category Name="rw_general" DisplayName="General" />
+        </Rule.Categories>
+        <Rule.DataSource>
+            <DataSource Persistence="UserFile" ItemType="" />
+        </Rule.DataSource>
+        <!-- Put your own properties here. !-->
+        <BoolProperty Name="RWVERBOSE" Category="rw_general"
+            DisplayName="Verbose"
+            Description="Enables verbose debug and output settings in RenderWare"
+            />
+        <BoolProperty Name="RWSTACKDEPTHCHECKING" Category="rw_general"
+            DisplayName="Debug Stack Depth"
+            Description=""
+            />
+        <BoolProperty Name="RWTRACE" Category="rw_general"
+            DisplayName="Enable Tracing"
+            Description=""
+            />
+        <BoolProperty Name="RWMEMDEBUG" Category="rw_general"
+            DisplayName="Enable memory debug"
+            Description=""
+            />
+        <BoolProperty Name="RWSUPPRESSINLINE" Category="rw_general"
+            DisplayName="Suppress inline definitions"
+            Description=""
+            />
+        <BoolProperty Name="RW_USE_SPF" Category="rw_general"
+            DisplayName="Use SPF"
+            Description=""
+            />
+        <BoolProperty Name="RWMATRIXMONITOR" Category="rw_general"
+            DisplayName="Enable matrix monitor"
+            Description=""
+            />
+        <BoolProperty Name="RWFREELISTDBG" Category="rw_general"
+            DisplayName="Enable freelist debug"
+            Description=""
+            />
+        <BoolProperty Name="RWNOFREELISTS" Category="rw_general"
+            DisplayName="Disable freelists"
+            Description=""
+            />
+        <BoolProperty Name="RWSEATIDENTIFIER" Category="rw_general"
+            DisplayName="Enable seat identifier"    
+            Description=""
+            />
+        <BoolProperty Name="RWD3D9_USE_VERTEXSHADER_PIPELINE" Category="rw_general"
+            DisplayName="D3D9 VertexShader pipeline"
+            Description=""
+            />
+        <BoolProperty Name="DEBUGGINGPOWERPIPE" Category="rw_general"
+            DisplayName="Debug powerpipe"
+            Description=""
+            />
+        <BoolProperty Name="DISABLERWHEAP" Category="rw_general"
+            DisplayName="Disable RW heap"
+            Description=""
+            />
+        <IntProperty Name="RWBUILDNUMBER" Category="rw_general"
+            DisplayName="Build number"
+            Description=""
+            />
+        <EnumProperty Name="RWDRIVER" Category="rw_general"
+            DisplayName="Select driver"
+            Description="" >
+            <EnumValue Name="D3D8" DisplayName="Direct3D 8" />
+            <EnumValue Name="D3D9" DisplayName="Direct3D 9" />
+        </EnumProperty>
+        <StringProperty Name="RWD3D8SDKDIR" Category="rw_general"
+            DisplayName="Direct3D 8 SDK Dir"
+            Description=""
+            Subtype="Folder"
+            />
+        <BoolProperty Name="NOASM" Category="rw_general"
+            DisplayName="Disable Assembler Sources"
+            Description=""
+            />
+        <BoolProperty Name="NOSSEASM" Category="rw_general"
+            DisplayName="Disable SSE Assembler Sources"
+            Description=""
+            />
+    </Rule>
+
+</ProjectSchemaDefinitions>

@@ -14,7 +14,7 @@
  Includes
  */
 #include "batypes.h"            /* picks up rwPI amongst others */
-#include "../../driver/d3d9/drvmodel.h"           /* Platform dependent rwSqrtMacro() etc */
+#include <drvmodel.h>
 #include "bamatrix.h"
 #include "bamath.h"             /*  */
 

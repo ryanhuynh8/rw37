@@ -15,7 +15,7 @@
 
 #include "../../../plcore/batypes.h"
 #include "../../../plcore/bacolor.h"
-#include "../../../../driver/d3d9/drvmodel.h"
+#include <drvmodel.h>
 #include "../p2core.h"
 
 /* RWPUBLIC */

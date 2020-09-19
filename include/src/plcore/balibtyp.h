@@ -21,7 +21,7 @@
 #include "badevice.h"
 #include "bamemory.h"
 #include "rwstring.h"
-#include "../../driver/d3d9/drvmodel.h"
+#include <drvmodel.h>
 
 /****************************************************************************
  Macros

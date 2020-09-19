@@ -18,7 +18,7 @@
 #include "../../plcore/bacolor.h"
 #include "../../baraster.h" /* For RwRaster */
 #include "../../plcore/baimmedi.h" /* For renderstates */
-#include "../../../driver/d3d9/drvmodel.h"
+#include <drvmodel.h>
 
 /****************************************************************************
  Global Types

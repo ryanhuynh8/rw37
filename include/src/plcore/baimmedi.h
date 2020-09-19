@@ -14,7 +14,7 @@
  */
 
 #include "batypes.h"
-#include "../../driver/d3d9/drvmodel.h"
+#include <drvmodel.h>
 
 /* RWPUBLIC */
 
