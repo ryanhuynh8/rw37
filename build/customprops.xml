@@ -90,6 +90,10 @@
             DisplayName="Disable SSE Assembler Sources"
             Description=""
             />
+        <BoolProperty Name="RW_STATIC" Category="rw_general"
+            DisplayName="Toggle static build"
+            Description=""
+            />
     </Rule>
 
 </ProjectSchemaDefinitions>

@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug_DLL|Win32">
-      <Configuration>Debug_DLL</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug_DLL|x64">
-      <Configuration>Debug_DLL</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_DLL|Win32">
-      <Configuration>Release_DLL</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_DLL|x64">
-      <Configuration>Release_DLL</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -42,56 +26,44 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
+  <ImportGroup>
+    <Import Project="defaults.props" />
+  </ImportGroup>
+  <ImportGroup>
+    <Import Project="..\..\..\_repoconfig\$(ProjectName).props" Condition="Exists('..\..\..\_repoconfig\$(ProjectName).props')" />
+  </ImportGroup>
+  <Import Project="$(ProjectName).vcxproj.user" Condition="Exists('$(ProjectName).vcxproj.user')" />
+  <PropertyGroup Condition="'$(RW_STATIC)'=='true'">
+    <OutDir>$(ProjectDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RW_STATIC)'!='true'">
+    <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RWCORE>true</RWCORE>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -102,67 +74,23 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
-  <ImportGroup>
-    <Import Project="defaults.props" />
-  </ImportGroup>
   <ItemGroup>
     <PropertyPageSchema Include="customprops.xml" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
-    <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(ProjectDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)..\lib\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
-    <OutDir>$(ProjectDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
+  <PropertyGroup>
     <IntDir>$(ProjectDir)..\obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -172,29 +100,11 @@
       <SDLCheck>false</SDLCheck>
       <CompileAs>CompileAsC</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_RW_CORE;RW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>false</SDLCheck>
-      <CompileAs>CompileAsC</CompileAs>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_RW_CORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -203,29 +113,11 @@
       <SDLCheck>false</SDLCheck>
       <CompileAs>CompileAsC</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_RW_CORE;NOASM;RW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>false</SDLCheck>
-      <CompileAs>CompileAsC</CompileAs>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_RW_CORE;NOASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -236,27 +128,6 @@
       <SDLCheck>false</SDLCheck>
       <CompileAs>CompileAsC</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_RW_CORE;RW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
-      <CompileAs>CompileAsC</CompileAs>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_RW_CORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>
@@ -265,7 +136,6 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -277,27 +147,6 @@
       <SDLCheck>false</SDLCheck>
       <CompileAs>CompileAsC</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_RW_CORE;NOASM;RW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
-      <CompileAs>CompileAsC</CompileAs>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>../include/collis/;../include/driver/common/;../include/os/win/;../include/src/;../include/src/plcore/;../include/src/pipe/p2/;../include/world/;../include/world/pipe/p2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_RW_CORE;NOASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>
@@ -306,7 +155,6 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -349,73 +197,57 @@
     <None Include="defaults.props" />
     <None Include="buildcfg.targets" />
   </ItemGroup>
-  <ImportGroup>
-    <Import Project="..\..\..\_repoconfig\$(ProjectName).props" Condition="Exists('..\..\..\_repoconfig\$(ProjectName).props')" />
-  </ImportGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
-    <Import Project="buildcfg.targets" />
-    <PropertyGroup Condition="'$(RWDRIVER)|$(Platform)'=='D3D8|Win32'">
-        <IncludePath>$(RWD3D8SDKDIR)\Include;$(IncludePath)</IncludePath>
-        <LibraryPath>$(RWD3D8SDKDIR)\Lib;$(LibraryPath)</LibraryPath>
-    </PropertyGroup>
-    <ItemDefinitionGroup Condition="'$(RWDRIVER)'=='D3D8'">
-        <ClCompile>
-            <AdditionalIncludeDirectories>../include/driver/d3d8/;../include/src/pipe/p2/d3d8/;../include/world/pipe/p2/d3d8/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-            <PreprocessorDefinitions>POINTER_64=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-        </ClCompile>
-        <Lib>
-            <AdditionalDependencies>d3d8.lib;d3dx8.lib;%(AdditionalDependencies)</AdditionalDependencies>
-        </Lib>
-        <Link>
-            <AdditionalDependencies>d3d8.lib;d3dx8.lib;%(AdditionalDependencies)</AdditionalDependencies>
-        </Link>
-    </ItemDefinitionGroup>
-    <PropertyGroup Condition="'$(RWDRIVER)|$(Platform)'=='D3D9|Win32'">
-        <IncludePath>$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-        <LibraryPath>$(DXSDK_DIR)\Lib\x86\;$(LibraryPath)</LibraryPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(RWDRIVER)|$(Platform)'=='D3D9|x64'">
-        <IncludePath>$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
-        <LibraryPath>$(DXSDK_DIR)\Lib\x64\;$(LibraryPath)</LibraryPath>
-    </PropertyGroup>
-    <ItemDefinitionGroup Condition="'$(RWDRIVER)'=='D3D9'">
-        <ClCompile>
-            <AdditionalIncludeDirectories>../include/driver/d3d9/;../include/src/pipe/p2/d3d9/;../include/world/pipe/p2/d3d9/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-        </ClCompile>
-        <Lib>
-            <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-        </Lib>
-        <Link>
-            <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-        </Link>
-    </ItemDefinitionGroup>
-    <ItemGroup>
-        <ClCompile Include="..\src\driver\d3d8\**\*.c">
-            <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D8'">true</ExcludedFromBuild>
-        </ClCompile>
-        <ClInclude Include="..\include\driver\d3d8\**\*.h" />
-        <ClCompile Include="..\src\src\pipe\p2\d3d8\**\*.c">
-            <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D8'">true</ExcludedFromBuild>
-        </ClCompile>
-        <ClInclude Include="..\include\src\pipe\p2\d3d8\**\*.h" />
-        <ClCompile Include="..\src\world\pipe\p2\d3d8\**\*.c">
-            <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D8'">true</ExcludedFromBuild>
-        </ClCompile>
-        <ClInclude Include="..\include\world\pipe\p2\d3d8\**\*.h" />
-        <ClCompile Include="..\src\driver\d3d9\**\*.c">
-            <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D9'">true</ExcludedFromBuild>
-        </ClCompile>
-        <ClInclude Include="..\include\driver\d3d9\**\*.h" />
-        <ClCompile Include="..\src\src\pipe\p2\d3d9\**\*.c">
-            <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D9'">true</ExcludedFromBuild>
-        </ClCompile>
-        <ClInclude Include="..\include\src\pipe\p2\d3d9\**\*.h" />
-        <ClCompile Include="..\src\world\pipe\p2\d3d9\**\*.c">
-            <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D9'">true</ExcludedFromBuild>
-        </ClCompile>
-        <ClInclude Include="..\include\world\pipe\p2\d3d9\**\*.h" />
-    </ItemGroup>
+  <Import Project="buildcfg.targets" />
+  <ItemDefinitionGroup Condition="'$(RWDRIVER)'=='D3D8'">
+    <Lib>
+      <AdditionalDependencies>d3d8.lib;d3dx8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Link>
+      <AdditionalDependencies>d3d8.lib;d3dx8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(RWDRIVER)'=='D3D9'">
+    <Lib>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Link>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\driver\d3d8\**\*.c">
+      <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D8'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="..\include\driver\d3d8\**\*.h" />
+    <ClCompile Include="..\src\src\pipe\p2\d3d8\**\*.c">
+      <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D8'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="..\include\src\pipe\p2\d3d8\**\*.h" />
+    <ClCompile Include="..\src\world\pipe\p2\d3d8\**\*.c">
+      <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D8'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="..\include\world\pipe\p2\d3d8\**\*.h" />
+    <ClCompile Include="..\src\driver\d3d9\**\*.c">
+      <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D9'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="..\include\driver\d3d9\**\*.h" />
+    <ClCompile Include="..\src\src\pipe\p2\d3d9\**\*.c">
+      <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D9'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="..\include\src\pipe\p2\d3d9\**\*.h" />
+    <ClCompile Include="..\src\world\pipe\p2\d3d9\**\*.c">
+      <ExcludedFromBuild Condition="'$(RWDRIVER)'!='D3D9'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="..\include\world\pipe\p2\d3d9\**\*.h" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(RW_STATIC)'!='true'">
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>$(ProjectDir)../lib/$(Platform)/$(Configuration)/$(ProjectName).lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

@@ -19,5 +19,6 @@
     <RWD3D8SDKDIR>X:\DX8SDK</RWD3D8SDKDIR>
     <NOASM>true</NOASM>
     <NOSSEASM>false</NOSSEASM>
+    <RW_STATIC>false</RW_STATIC>
   </PropertyGroup>
 </Project>
