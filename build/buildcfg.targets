@@ -128,5 +128,9 @@
         <ClCompile>
             <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)/../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
         </ClCompile>
+        <Link>
+            <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)/../lib/$(Platform)/$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+            <AdditionalDependencies>RW37.lib;%(AdditionalDependencies)</AdditionalDependencies>
+        </Link>
     </ItemDefinitionGroup>
 </Project>
