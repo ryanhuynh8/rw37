@@ -131,6 +131,7 @@
         <Link>
             <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)/../lib/$(Platform)/$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
             <AdditionalDependencies>RW37.lib;%(AdditionalDependencies)</AdditionalDependencies>
+            <ImageHasSafeExceptionHandlers Condition="$(RWDRIVER)=='D3D8'">false</ImageHasSafeExceptionHandlers>
         </Link>
     </ItemDefinitionGroup>
 </Project>
