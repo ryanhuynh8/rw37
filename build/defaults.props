@@ -20,5 +20,6 @@
     <NOASM>true</NOASM>
     <NOSSEASM>false</NOSSEASM>
     <RW_STATIC>false</RW_STATIC>
+    <RW_BRANCH>DEFAULT</RW_BRANCH>
   </PropertyGroup>
 </Project>

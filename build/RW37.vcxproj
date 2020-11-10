@@ -250,4 +250,9 @@
       <ImportLibrary>$(ProjectDir)../lib/$(Platform)/$(Configuration)/$(ProjectName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+        <PreprocessorDefinitions>RW_BRANCH_$(RW_BRANCH);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
 </Project>

@@ -94,6 +94,13 @@
             DisplayName="Toggle static build"
             Description=""
             />
+        <EnumProperty Name="RW_BRANCH" Category="rw_general"
+            DisplayName="Branch Selection"
+            Description="Selects the vendor branch. Activates vendor specific code paths.">
+            <EnumValue Name="DEFAULT" DisplayName="Default" />
+            <EnumValue Name="ROCKSTAR" DisplayName="RockstarGames" />
+            <EnumValue Name="COMMDBG" DisplayName="CommunityDebug" />
+        </EnumProperty>
     </Rule>
 
 </ProjectSchemaDefinitions>
