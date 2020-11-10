@@ -636,6 +636,11 @@ _rwD3D8NativeTextureRead(void *streamIn, void *textureIn,
         autoMipmap = raster->cFormat & (rwRASTERFORMATAUTOMIPMAP >> 8);
         raster->cFormat &= ~autoMipmap;
 
+#ifdef RW_BRANCH_COMMDBG
+        RwUInt32 curMipWidth = nativeRaster.width;
+        RwUInt32 curMipHeight = nativeRaster.height;
+#endif //RW_BRANCH_COMMDBG
+
         /* Load mips into raster */
         for (i = 0; i < nativeRaster.numMipLevels; i++)
         {
@@ -651,11 +656,59 @@ _rwD3D8NativeTextureRead(void *streamIn, void *textureIn,
                 RWRETURN(FALSE);
             }
 
+#ifdef RW_BRANCH_COMMDBG
+            // Do the same as in D3D9.
+            RwBool couldCopy = FALSE;
+
+            if ( rasExt->dxtFormat != 0 )
+            {
+                RwUInt32 mipDXTBlocksHeight = ( ( curMipHeight + 3u ) / 4u );
+
+                RwUInt32 dxtBlocksByteStride = ( size / mipDXTBlocksHeight );
+                RwUInt32 gpuDxtBlocksByteStride = raster->stride;
+
+                if ( dxtBlocksByteStride == gpuDxtBlocksByteStride )
+                {
+                    couldCopy = ( RwStreamRead( stream, pixels, size ) == size );
+                }
+            }
+            else
+            {
+                // Need to fetch the actual pitch and if it matches the provided pitch then we can directly copy into video memory.
+                // Otherwise we have to copy row-by-row.
+                RwInt32 gpuPitch = raster->stride;
+                RwInt32 dataPitch = size / curMipHeight;
+
+                if ( gpuPitch == dataPitch )
+                {
+                    couldCopy = ( RwStreamRead( stream, pixels, size ) == size );
+                }
+            }
+
+            if ( couldCopy == FALSE )
+            {
+                RwRasterUnlock(raster);
+
+                RwRasterDestroy(raster);
+
+                RWRETURN(FALSE);
+            }
+
+            if ( curMipWidth > 1 )
+            {
+                curMipWidth /= 2;
+            }
+            if ( curMipHeight > 1 )
+            {
+                curMipHeight /= 2;
+            }
+#else
             /* Read the mip level */
             if (RwStreamRead(stream, (void *)pixels, size) != size)
             {
                 RWRETURN(FALSE);
             }
+#endif //RW_BRANCH_COMMDBG
 
             RwRasterUnlock(raster);
         }
