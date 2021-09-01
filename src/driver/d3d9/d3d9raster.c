@@ -868,7 +868,7 @@ _rwD3D9RasterUnlock(void *unused1 __RWUNUSED__,
                 raster->cpPixels = NULL;
 
                 /* Unlock system memory surface */
-                IDirect3DSurface9_UnlockRect(rasExt->lockedSurface);
+                DXCHECK(IDirect3DSurface9_UnlockRect(rasExt->lockedSurface));
 
                 /* Update video memory surface if needed */
                 if (raster->privateFlags & rwRASTERPIXELLOCKEDWRITE)

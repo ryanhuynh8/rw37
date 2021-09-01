@@ -486,6 +486,171 @@ _rwD3D9NativeTextureWrite(void *streamIn, void *textureIn,
  On entry   :
  On exit    :
  */
+#ifdef RW_BRANCH_COMMDBG
+
+#define MAX_PIXEL_FORMATS   128
+
+static RwBool _rwD3D9NativeTextureIsRawD3DFMT( D3DFORMAT fmt, size_t *pixelbytesize_out )
+{
+    if ( fmt < 0u || fmt >= MAX_PIXEL_FORMATS )
+    {
+        return FALSE;
+    }
+
+    _rwD3D9FormatInfo *finfo = &_rwD3D9PixelFormatInfo[ fmt ];
+
+    if ( finfo->depth == 0 )
+    {
+        return FALSE;
+    }
+    
+    *pixelbytesize_out = ( finfo->depth / 8u );
+    return TRUE;
+}
+
+struct _rwD3D9CompressionInfo
+{
+    RwUInt8 pixblock_w, pixblock_h;
+    RwUInt8 blockbytesize;
+};
+
+static RwBool _rwD3D9NativeTextureIsCompressionFormat( D3DFORMAT fmt, struct _rwD3D9CompressionInfo *cinfo_out )
+{
+    if ( fmt == D3DFMT_DXT1 || 
+         fmt == D3DFMT_DXT2 ||
+         fmt == D3DFMT_DXT3 ||
+         fmt == D3DFMT_DXT4 ||
+         fmt == D3DFMT_DXT5 )
+    {
+        cinfo_out->pixblock_w = 4;
+        cinfo_out->pixblock_h = 4;
+        
+        if ( fmt == D3DFMT_DXT1 )
+        {
+            cinfo_out->blockbytesize = 8;
+        }
+        else
+        {
+            cinfo_out->blockbytesize = 16;
+        }
+        return TRUE;
+    }
+    else if ( fmt == D3DFMT_UYVY ||
+              fmt == D3DFMT_R8G8_B8G8 ||
+              fmt == D3DFMT_YUY2 ||
+              fmt == D3DFMT_G8R8_G8B8 )
+    {
+        cinfo_out->pixblock_w = 2;
+        cinfo_out->pixblock_h = 1;
+        cinfo_out->blockbytesize = 4;
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+// Known unsupported formats:
+// * D3DFMT_VERTEXDATA
+// * D3DFMT_INDEX16
+// * D3DFMT_INDEX32
+// * D3DFMT_MULTI2_ARGB8
+
+static size_t _rwD3D9NativeTextureGetVideoBufferSize( RwRaster *ras, _rwD3D9RasterExt *rasExt, RwUInt32 mipidx )
+{
+    // Get the raster type that is important for the video buffer dimensions.
+    RwUInt8 rasType = ras->cType;
+
+    RwUInt32 base_width, base_height;
+
+    if ( rasType == rwRASTERTYPETEXTURE || rasType == rwRASTERTYPENORMAL ||
+         rasType == rwRASTERTYPEZBUFFER || rasType == rwRASTERTYPECAMERATEXTURE )
+    {
+        // These raster types come with their own (base) texture handle.
+        if ( rasExt->cube == TRUE )
+        {
+            base_width = (RwUInt32)ras->originalWidth;
+            base_height = base_width;
+        }
+        else
+        {
+            base_width = (RwUInt32)ras->originalWidth;
+            base_height = (RwUInt32)ras->originalHeight;
+        }
+    }
+    else if ( rasType == rwRASTERTYPECAMERA )
+    {
+        // The camera does only have one mip layer, always.
+        if ( mipidx > 0 )
+        {
+            return 0;
+        }
+
+        // Camera rasters do always target the back-buffer.
+        base_width = Present.BackBufferWidth;
+        base_height = Present.BackBufferHeight;
+    }
+    else
+    {
+        // Invalid raster type.
+        return 0;
+    }
+
+    // Calculate the mip-level dimensions.
+    RwUInt32 raw_mip_width = base_width;
+    RwUInt32 raw_mip_height = base_height;
+
+    for ( RwUInt32 n = 0; n < mipidx; n++ )
+    {
+        if ( raw_mip_width == 1 && raw_mip_height == 1 )
+        {
+            // No mipmap layer.
+            return 0;
+        }
+
+        if ( raw_mip_width > 1 )
+        {
+            raw_mip_width /= 2;
+        }
+
+        if ( raw_mip_height > 1 )
+        {
+            raw_mip_height /= 2;
+        }
+    }
+
+    // Calculate the video buffer size depending on the surface pixel format.
+    // We do not support all the pixel formats thus we limit ourselves to the known subset.
+    D3DFORMAT fmt = rasExt->d3dFormat;
+
+    // Try raw format.
+    {
+        RwUInt32 samplebytesize;
+
+        if ( _rwD3D9NativeTextureIsRawD3DFMT( fmt, &samplebytesize ) )
+        {
+            return ( ras->stride * raw_mip_height );
+        }
+    }
+
+    // Try compressed format.
+    {
+        struct _rwD3D9CompressionInfo cinfo;
+
+        if ( _rwD3D9NativeTextureIsCompressionFormat( fmt, &cinfo ) )
+        {
+            RwUInt32 blocks_by_height = ( ( raw_mip_height + ( cinfo.pixblock_h - 1 ) ) / cinfo.pixblock_h );
+
+            return ( ras->stride * blocks_by_height );
+        }
+    }
+
+    // We have no idea. Better not allow loading.
+    return 0;
+}
+
+#endif //RW_BRANCH_COMMDBG
+
+
 RwBool
 _rwD3D9NativeTextureRead(void *streamIn, void *textureIn,
                        RwInt32 unused3 __RWUNUSED__)
@@ -685,6 +850,8 @@ _rwD3D9NativeTextureRead(void *streamIn, void *textureIn,
     }
     else if ((nativeRaster.flags & IS_CUBE) != 0)
     {
+        // THIS CODE PATH NEVER WORKS.
+
         RwUInt32 levels;
 
         /* Create a raster */
@@ -779,6 +946,8 @@ _rwD3D9NativeTextureRead(void *streamIn, void *textureIn,
     }
     else
     {
+        // THIS CODE PATH NEVER WORKS.
+
         /* Create a raster */
         raster = RwD3D9RasterCreate(nativeRaster.width,
                                     nativeRaster.height,
@@ -886,11 +1055,6 @@ _rwD3D9NativeTextureRead(void *streamIn, void *textureIn,
         /* Load mips into raster */
         do
         {
-#ifdef RW_BRANCH_COMMDBG
-            RwUInt32 curMipWidth = nativeRaster.width;
-            RwUInt32 curMipHeight = nativeRaster.height;
-#endif //RW_BRANCH_COMMDBG
-
             for (i = 0; i < numMipLevels; i++)
             {
                 RwUInt8     *pixels;
@@ -910,51 +1074,27 @@ _rwD3D9NativeTextureRead(void *streamIn, void *textureIn,
                 }
 
 #ifdef RW_BRANCH_COMMDBG
-                D3DFORMAT d3dfmt = nativeRaster.d3dFormat;
+                RwUInt32 maxvideobufsize = _rwD3D9NativeTextureGetVideoBufferSize( raster, rasExt, i );
 
-                RwBool couldCopy = FALSE;
+                RwUInt32 allowload = min(maxvideobufsize, size);
 
-                if ( d3dfmt >= D3DFMT_DXT1 && d3dfmt <= D3DFMT_DXT5 )
+                if (allowload > 0)
                 {
-                    RwUInt32 mipDXTBlocksHeight = ( ( curMipHeight + 3u ) / 4u );
-
-                    RwUInt32 dxtBlocksByteStride = ( size / mipDXTBlocksHeight );
-                    RwUInt32 gpuDxtBlocksByteStride = raster->stride;
-
-                    if ( dxtBlocksByteStride == gpuDxtBlocksByteStride )
+                    if (RwStreamRead( stream, pixels, allowload ) != allowload)
                     {
-                        couldCopy = ( RwStreamRead( stream, pixels, size ) == size );
-                    }
-                }
-                else
-                {
-                    // Need to fetch the actual pitch and if it matches the provided pitch then we can directly copy into video memory.
-                    // Otherwise we have to copy row-by-row.
-                    RwInt32 gpuPitch = raster->stride;
-                    RwInt32 dataPitch = size / curMipHeight;
+                        RwRasterUnlock(raster);
 
-                    if ( gpuPitch == dataPitch )
-                    {
-                        couldCopy = ( RwStreamRead( stream, pixels, size ) == size );
+                        RwRasterDestroy(raster);
+
+                        RWRETURN(FALSE);
                     }
                 }
 
-                if ( couldCopy == FALSE )
-                {
-                    RwRasterUnlock(raster);
+                RwUInt32 skipcnt = ( size - allowload );
 
-                    RwRasterDestroy(raster);
-
-                    RWRETURN(FALSE);
-                }
-
-                if ( curMipWidth > 1 )
+                if ( skipcnt > 0 )
                 {
-                    curMipWidth /= 2;
-                }
-                if ( curMipHeight > 1 )
-                {
-                    curMipHeight /= 2;
+                    RwStreamSkip( stream, skipcnt );
                 }
 #else
                 /* Read the mip level */
