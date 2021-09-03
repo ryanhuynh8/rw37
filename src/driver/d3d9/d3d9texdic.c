@@ -565,16 +565,30 @@ static size_t _rwD3D9NativeTextureGetVideoBufferSize( RwRaster *ras, _rwD3D9Rast
     if ( rasType == rwRASTERTYPETEXTURE || rasType == rwRASTERTYPENORMAL ||
          rasType == rwRASTERTYPEZBUFFER || rasType == rwRASTERTYPECAMERATEXTURE )
     {
+        // The location of the base width/height depends on the locked/not-locked state.
+        RwUInt32 raster_width, raster_height;
+
+        if ( ras->cpPixels != NULL )
+        {
+            raster_width = (RwUInt32)ras->originalWidth;
+            raster_height = (RwUInt32)ras->originalHeight;
+        }
+        else
+        {
+            raster_width = (RwUInt32)ras->width;
+            raster_height = (RwUInt32)ras->height;
+        }
+
         // These raster types come with their own (base) texture handle.
         if ( rasExt->cube == TRUE )
         {
-            base_width = (RwUInt32)ras->originalWidth;
+            base_width = raster_width;
             base_height = base_width;
         }
         else
         {
-            base_width = (RwUInt32)ras->originalWidth;
-            base_height = (RwUInt32)ras->originalHeight;
+            base_width = raster_width;
+            base_height = raster_height;
         }
     }
     else if ( rasType == rwRASTERTYPECAMERA )
